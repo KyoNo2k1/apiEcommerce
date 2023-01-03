@@ -8,7 +8,10 @@ router.post("/registers", async (req, res) => {
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
-    password: CryptoJS.AES.encrypt(req.body.password, "Hello").toString(),
+    password: CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SEC
+    ).toString(),
   });
 
   try {
@@ -24,12 +27,15 @@ router.post("/registers", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({
-      userName: req.body.user_name,
+      username: req.body.user_name,
     });
 
     !user && res.status(401).json("Wrong User Name");
 
-    const hashedPassword = CryptoJS.AES.decrypt(user.password, "Hello");
+    const hashedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.PASS_SEC
+    );
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
 
@@ -42,7 +48,7 @@ router.post("/login", async (req, res) => {
         id: user._id,
         isAdmin: user.isAdmin,
       },
-      "Hello",
+      process.env.JWT_SEC,
       { expiresIn: "3d" }
     );
 

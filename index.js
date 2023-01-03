@@ -23,7 +23,7 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/Accounts", authRoute);
+app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
