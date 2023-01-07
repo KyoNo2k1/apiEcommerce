@@ -45,6 +45,29 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
     res.status(500).json(err);
   }
 });
+//DELETE PRODUCT FROM CARD
+router.post(
+  "/:id/product/:idPd",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
+    try {
+      const cart = await Cart.findOne({ userId: req.user.id });
+      const products = cart.products;
+      const newPd = products.filter(
+        (product) => product.productId !== req.params.idPd
+      );
+      var data = req.body;
+      data.products = newPd;
+      await Cart.findByIdAndUpdate(req.params.id, {
+        $set: data,
+      });
+      res.status(200).json("Product has been deleted...");
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  }
+);
 
 //GET USER CART
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
