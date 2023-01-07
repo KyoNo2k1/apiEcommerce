@@ -62,7 +62,7 @@ router.get(
   verifyTokenAndAuthorization,
   async (req, res) => {
     try {
-      const orders = await Order.find({
+      const orders = await Order.findOne({
         userId: req.params.userId,
         _id: req.params.orderId,
       });
