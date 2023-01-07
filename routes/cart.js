@@ -61,7 +61,7 @@ router.post(
       await Cart.findByIdAndUpdate(req.params.id, {
         $set: data,
       });
-      res.status(200).json("Product has been deleted...");
+      res.status(200).json(true);
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
