@@ -62,7 +62,7 @@ router.post(
         $set: data,
       });
       if (data.products.length) res.status(200).json(true);
-      else res.status(200).json("end");
+      else res.status(200).json(false);
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
