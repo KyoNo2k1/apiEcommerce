@@ -61,7 +61,8 @@ router.post(
       await Cart.findByIdAndUpdate(req.params.id, {
         $set: data,
       });
-      res.status(200).json(true);
+      if (data.products.length) res.status(200).json(true);
+      else res.status(200).json("end");
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
