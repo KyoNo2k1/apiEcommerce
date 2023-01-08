@@ -75,7 +75,7 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const cart = await Cart.findOne({ userId: req.params.userId });
     if (cart) res.status(200).json(cart);
-    else res.status(404).json("Not found");
+    else res.status(200).json(false);
   } catch (err) {
     res.status(500).json(err);
   }
